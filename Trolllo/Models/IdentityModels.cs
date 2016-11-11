@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -50,9 +51,11 @@ namespace Trolllo.Models
 
         public DateTime Birthday { get; set; }
 
-        public IList<WorkTask> Tasks { get; set; }
+        public virtual IEnumerable<Project> Projects { get; set; } 
 
-        public IList<ApplicationUser> Workers { get; set; } 
+        public virtual IEnumerable<WorkTask> Tasks { get; set; }
+
+        public virtual IEnumerable<ApplicationUser> Workers { get; set; } 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager)
         {
