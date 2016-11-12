@@ -78,5 +78,9 @@ namespace Trolllo.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<UserProject> UserProjects { get; set; }
+        public DbSet<WorkTask> WorkTasks { get; set; }
     }
 }
