@@ -12,6 +12,9 @@ namespace Trolllo.Models
         [Key]
         public int ProjectId { get; set; }
 
+        [ForeignKey("Technology")]
+        public int TechnologyId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -22,5 +25,7 @@ namespace Trolllo.Models
         public int? ManagerId { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public virtual Technology Technology { get; set; }
     }
 }
