@@ -196,6 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -226,6 +227,10 @@
     <Compile Include="Migrations\201611161651068_DeleteUserProjectAndAddIndexOnAttend.cs" />
     <Compile Include="Migrations\201611161651068_DeleteUserProjectAndAddIndexOnAttend.Designer.cs">
       <DependentUpon>201611161651068_DeleteUserProjectAndAddIndexOnAttend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611161919161_AddedCommitToProjectsByWorkers.cs" />
+    <Compile Include="Migrations\201611161919161_AddedCommitToProjectsByWorkers.Designer.cs">
+      <DependentUpon>201611161919161_AddedCommitToProjectsByWorkers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -309,6 +314,7 @@
     <Content Include="Views\Technologies\Edit.cshtml" />
     <Content Include="Views\Technologies\Index.cshtml" />
     <Content Include="Views\Projects\AttendToManagment.cshtml" />
+    <Content Include="Views\Admin\ManageManagers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -340,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611161651068_DeleteUserProjectAndAddIndexOnAttend.resx">
       <DependentUpon>201611161651068_DeleteUserProjectAndAddIndexOnAttend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611161919161_AddedCommitToProjectsByWorkers.resx">
+      <DependentUpon>201611161919161_AddedCommitToProjectsByWorkers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -15,7 +15,7 @@ namespace Trolllo.Models
         [Index("AddedWorkerAndProject", 1, IsUnique = true)]
         [ForeignKey("ApplicationUser")]
         public int WorkerId { get; set; }
-        [Index("AddedWorkerAndProject", 1, IsUnique = true)]
+        [Index("AddedWorkerAndProject", 2, IsUnique = true)]
         [ForeignKey("Project")]
         public int ProjectId { get; set; }
 

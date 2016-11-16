@@ -28,6 +28,12 @@ namespace Trolllo.Models
 
         public virtual ApplicationUser ApplicationUser { get; set; }
 
+        [ForeignKey("Peasants")]
+        public List<int?> PeasantsId { get; set; }
+
+        public virtual List<ApplicationUser> Peasants { get; set; }
+
+
         public virtual Technology Technology { get; set; }
     }
 
