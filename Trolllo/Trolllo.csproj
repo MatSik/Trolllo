@@ -217,6 +217,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AttendedToProject.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
@@ -294,6 +295,7 @@
     <Content Include="Views\Technologies\Details.cshtml" />
     <Content Include="Views\Technologies\Edit.cshtml" />
     <Content Include="Views\Technologies\Index.cshtml" />
+    <Content Include="Views\Projects\AttendToManagment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

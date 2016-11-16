@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -38,8 +39,8 @@ namespace Trolllo
         public ApplicationUserManager(IUserStore<ApplicationUser, int> store)
             : base(store)
         {
-        }
 
+        }
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
             var manager = new ApplicationUserManager(new UserStore(context.Get<ApplicationDbContext>()));
@@ -104,6 +105,32 @@ namespace Trolllo
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+        }
+    }
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class CustomAuthorizeAttribute : AuthorizeAttribute
+    {
+
+        // NOTE: This is not thread safe, it is much better to store this
+        // value in HttpContext.Items.  See Ben Cull's answer below for an example.
+        private bool _isAuthorized;
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            _isAuthorized = base.AuthorizeCore(httpContext);
+            return _isAuthorized;
+        }
+
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            
+            if (!AuthorizeCore(filterContext.HttpContext))
+            {
+                filterContext.Result = new ContentResult
+                {
+                    Content = _isAuthorized.ToString()
+                };
+            }
         }
     }
 }

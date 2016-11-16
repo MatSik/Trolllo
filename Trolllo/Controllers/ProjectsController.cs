@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Trolllo.Models;
 
 namespace Trolllo.Controllers
@@ -15,6 +12,7 @@ namespace Trolllo.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Projects
+
         public ActionResult Index()
         {
             var projects = db.Projects.Include(p => p.ApplicationUser);
@@ -37,6 +35,7 @@ namespace Trolllo.Controllers
         }
 
         // GET: Projects/Create
+        [CustomAuthorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.TechnologyId = new SelectList(db.Technologies, "TechnologyId", "Name");
@@ -46,6 +45,7 @@ namespace Trolllo.Controllers
         // POST: Projects/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [CustomAuthorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectId,Name,Description,TechnologyId")] Project project)
@@ -62,6 +62,7 @@ namespace Trolllo.Controllers
         }
 
         // GET: Projects/Edit/5
+        [CustomAuthorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -80,6 +81,7 @@ namespace Trolllo.Controllers
         // POST: Projects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [CustomAuthorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectId,Name,Description,ManagerId")] Project project)
@@ -95,6 +97,7 @@ namespace Trolllo.Controllers
         }
 
         // GET: Projects/Delete/5
+        [CustomAuthorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -110,6 +113,7 @@ namespace Trolllo.Controllers
         }
 
         // POST: Projects/Delete/5
+        [CustomAuthorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -117,6 +121,30 @@ namespace Trolllo.Controllers
             Project project = db.Projects.Find(id);
             db.Projects.Remove(project);
             db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [CustomAuthorize(Roles = "Admin,Manager")]
+        [HttpGet]
+        public ActionResult AttendToManagment(int id)
+        {
+            var searchedProject = db.Projects.Find(id);
+            return View(searchedProject);
+        }
+
+        [CustomAuthorize(Roles = "Admin,Manager")]
+        [HttpPost, ActionName("AttendToManagment")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AttendToManagmentConfirmed(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var searchedProject = db.Projects.Find(id);
+                searchedProject.ManagerId = User.Identity.GetUserId<int>();
+                db.Entry(searchedProject).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 
