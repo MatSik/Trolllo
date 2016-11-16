@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -137,14 +139,21 @@ namespace Trolllo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AttendToManagmentConfirmed(int id)
         {
-            if (ModelState.IsValid)
+            var attendManagerToProject = new AttendedToProject
             {
-                var searchedProject = db.Projects.Find(id);
-                searchedProject.ManagerId = User.Identity.GetUserId<int>();
-                db.Entry(searchedProject).State = EntityState.Modified;
+                ProjectId = id,
+                ApplicationUserId = User.Identity.GetUserId<int>()
+            };
+            try
+            {
+                db.AttendedToProjects.Add(attendManagerToProject);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
+            catch (DbUpdateException exception)
+            {
+                return RedirectToAction("Index","Home");
+            }
+      
             return RedirectToAction("Index");
         }
 

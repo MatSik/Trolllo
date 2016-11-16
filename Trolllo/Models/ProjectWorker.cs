@@ -7,16 +7,20 @@ using System.Web;
 
 namespace Trolllo.Models
 {
-    public class UserProject
+    public class ProjectWorker
     {
         [Key]
-        public int UserProjectId { get; set; }
+        public int ProjectWorkerId { get; set; }
+
+        [Index("AddedWorkerAndProject", 1, IsUnique = true)]
         [ForeignKey("ApplicationUser")]
-        public int ApplicationUserId { get; set; }
+        public int WorkerId { get; set; }
+        [Index("AddedWorkerAndProject", 1, IsUnique = true)]
         [ForeignKey("Project")]
         public int ProjectId { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
+
         public virtual Project Project { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace Trolllo.Models
 
         public string Description { get; set; }
 
+        public StateOfProject StateOfProject { get; set; }
+
         public virtual IEnumerable<WorkTask> WorkTasks { get; set; }
 
         [ForeignKey("ApplicationUser")]
@@ -27,5 +29,14 @@ namespace Trolllo.Models
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual Technology Technology { get; set; }
+    }
+
+    public enum StateOfProject
+    {
+        NotStarted,
+        InProgress,
+        Suspended,
+        Failed,
+        Succes
     }
 }
