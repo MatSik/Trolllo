@@ -17,7 +17,6 @@ namespace Trolllo
         {
            ConfigureAuth(app);
             AddRoles();
-
         }
 
         public void AddRoles()
@@ -27,7 +26,7 @@ namespace Trolllo
             var roleManager = new RoleManager<Role, int>(new RoleStore<Role, int, UserRole>(context));
             var UserManager = new UserManager<ApplicationUser, int>(new UserStore
                 <ApplicationUser, Role, int, UserLogin, UserRole, UserClaim>(context));
-
+          
             AddAdminRole(roleManager, UserManager);
             AddManager(roleManager);
             AddUserRole(roleManager);

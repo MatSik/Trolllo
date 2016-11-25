@@ -1,6 +1,6 @@
-﻿@using System.Collections
-@using Trolllo.Models
-@model IEnumerable<Trolllo.Models.ApplicationUser>
+﻿
+@using Trolllo.Constans
+@model IEnumerable<Trolllo.Models.UserWithRoleModel>
 
 @{
     ViewBag.Title = "ManageManagers";
@@ -39,7 +39,12 @@
         <th>
             @Html.DisplayNameFor(model => model.UserName)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th>
+            Operation
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -51,7 +56,10 @@
             @Html.DisplayFor(modelItem => item.Surname)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Birthday)
+            @{
+                string Birthday = item.Birthday.ToString("d");
+            }
+            @Html.DisplayFor(modelItem => Birthday)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
@@ -70,9 +78,18 @@
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td>
+            @if (!item.Role.Equals("Admin"))
+            {
+                @Html.ActionLink("Promote", "PromoteOrDegrade", new { id = item.Id, promote = Constant.PROMOTE })
+            }
+            @if (!item.Role.Equals("User"))
+            {
+                @Html.ActionLink("Degrade", "PromoteOrDegrade", new { id = item.Id, promote = !Constant.PROMOTE })
+            }
+           
         </td>
     </tr>
 }
