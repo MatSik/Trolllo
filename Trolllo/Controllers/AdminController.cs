@@ -37,7 +37,10 @@ namespace Trolllo.Controllers
 
 
 
-        // GET: Admin
+        public ActionResult Index()
+        {
+            return View();
+        }
         public ActionResult ManageManagers()
         {
             PutAllRolesInViewdata();
