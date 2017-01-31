@@ -1,0 +1,22 @@
+﻿@using System.Web.Mvc.Html
+@model IEnumerable<Trolllo.Models.AttendedToProject>
+@{
+    ViewBag.Title = "ManagersAttended";
+}
+
+<h2>ManagersAttended</h2>
+
+
+@foreach (var item in Model)
+{
+    @item.ApplicationUser.Name;
+   
+    using (Html.BeginForm("SubmitManager", "Admin",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("managerId", item.ApplicationUserId);
+        @Html.Hidden("projectId" , item.ProjectId)
+        <input type="submit" value="Przypisz" />
+    }
+
+}

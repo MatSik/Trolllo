@@ -27,4 +27,23 @@ namespace Trolllo.Models
 
         public string Role { get; set; }
     }
+
+    public class ProjectsViewModel
+    {
+        public int ProjectId { get; set; }
+
+        public int TechnologyId { get; set; }
+
+        public string TechnologyName { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public int? ManagerId { get; set; }
+
+        public string ManagerUsername { get; set; }
+
+        public int AttendCount { get; set; }
+    }
 }

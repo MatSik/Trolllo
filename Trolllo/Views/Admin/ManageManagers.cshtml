@@ -8,90 +8,14 @@
 
 <div class="form-group">
     <div class="col-md-10">
-        @Html.DropDownList("AllRoles", null, htmlAttributes: new { @class = "form-control" })
+        @using (Ajax.BeginForm("FiltrUsersWithRoles", "Admin", new AjaxOptions() { UpdateTargetId = "tableOfUsers", HttpMethod = "GET", InsertionMode = InsertionMode.Replace }))
+        { 
+            @Html.DropDownList("selectedRoleFromDropdown", ViewData["AllRoles"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+            <input type="submit" value="search" />
+        }
     </div>
 </div>
 <h2>ManageManagers</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Surname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Birthday)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmailConfirmed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Role)
-        </th>
-        <th>
-            Operation
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Surname)
-        </td>
-        <td>
-            @{
-                string Birthday = item.Birthday.ToString("d");
-            }
-            @Html.DisplayFor(modelItem => Birthday)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmailConfirmed)
-        </td>
-       
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role)
-        </td>
-        <td>
-            @if (!item.Role.Equals("Admin"))
-            {
-                @Html.ActionLink("Promote", "PromoteOrDegrade", new { id = item.Id, promote = Constant.PROMOTE })
-            }
-            @if (!item.Role.Equals("User"))
-            {
-                @Html.ActionLink("Degrade", "PromoteOrDegrade", new { id = item.Id, promote = !Constant.PROMOTE })
-            }
-           
-        </td>
-    </tr>
-}
-
-</table>
+<div id="tableOfUsers">
+    @Html.Partial("_UserAdminPartial",Model);
+</div>

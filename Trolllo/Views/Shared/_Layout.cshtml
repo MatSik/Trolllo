@@ -1,14 +1,16 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
+<head ng-app="Main">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/bundles/angular")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/bundles/ajax3.1.1")
+    @Scripts.Render("~/bundles/ajax")
 </head>
-<body>
+<body class="backgroundedImageLayout">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">

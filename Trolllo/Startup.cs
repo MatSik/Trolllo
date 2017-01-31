@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
@@ -30,7 +29,16 @@ namespace Trolllo
             AddAdminRole(roleManager, UserManager);
             AddManager(roleManager);
             AddUserRole(roleManager);
-            
+            AddAllRole(roleManager);
+
+        }
+
+        private void AddAllRole(RoleManager<Role, int> roleManager)
+        {
+            if (!roleManager.RoleExists("All"))
+            {
+                roleManager.Create(new Role("All"));
+            }
         }
 
         private void AddUserRole(RoleManager<Role, int> roleManager)

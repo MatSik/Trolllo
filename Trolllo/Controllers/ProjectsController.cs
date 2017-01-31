@@ -86,7 +86,7 @@ namespace Trolllo.Controllers
         [CustomAuthorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProjectId,Name,Description,ManagerId")] Project project)
+        public ActionResult Edit( Project project)
         {
             if (ModelState.IsValid)
             {

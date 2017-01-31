@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI.WebControls.Expressions;
 using System.Xml.Schema;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -18,6 +20,7 @@ namespace Trolllo.Controllers
     public class AdminController : Controller
     {
         private ApplicationUserManager _userManager;
+        private RoleManager<Role, int> _roleManager;
         
         public ApplicationUserManager UserManager
         {
@@ -30,7 +33,17 @@ namespace Trolllo.Controllers
                 _userManager = value;
             }
         }
-
+        public RoleManager<Role, int> RoleManager
+        {
+            get
+            {
+                return _roleManager ?? new RoleManager<Role, int>(new RoleStore<Role, int, UserRole>(_context));
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
 
         private ApplicationDbContext _context = new ApplicationDbContext();
 
@@ -73,19 +86,34 @@ namespace Trolllo.Controllers
 
         private string GiveRoleOfOfUser(int id)
         {
-            RoleManager<Role,int> roleManager = new RoleManager<Role, int>(new RoleStore<Role, int, UserRole>(_context));
 
             var applicationUser = _context.Users.Find(id);
 
             var a = applicationUser.Roles.First().RoleId;
             
-            return roleManager.Roles.First(x => x.Id == a).Name;
+            return RoleManager.Roles.First(x => x.Id == a).Name;
         }
+
 
         private void PutAllRolesInViewdata()
         {
             var allRoles = new SelectList(_context.Roles, "Id", "Name");
             ViewData["AllRoles"] = allRoles;
+        }
+
+        public PartialViewResult FiltrUsersWithRoles(int selectedRoleFromDropdown)
+        {
+            var users = UserManager.Users;
+            List<UserWithRoleModel> listOfUsers = new List<UserWithRoleModel>();
+            var selectedRole = RoleManager.Roles.First(x => x.Id == selectedRoleFromDropdown).Name;
+            foreach (var applicationUser in users)
+            {
+                if (GiveRoleOfOfUser(applicationUser.Id).Equals(selectedRole) || selectedRole.Equals("All"))
+                {
+                    listOfUsers.Add(CreateUserWithRoleModel(applicationUser));
+                }
+            }
+            return PartialView("_UserAdminPartial", listOfUsers);
         }
 
         [HttpGet]
@@ -141,10 +169,76 @@ namespace Trolllo.Controllers
             }
         }
 
-        private async void RemoveAndAddRole(string oldRole, string newRole, int userId)
+        private  void RemoveAndAddRole(string oldRole, string newRole, int userId)
         {
-            await UserManager.RemoveFromRoleAsync(userId, oldRole);
-            await UserManager.AddToRoleAsync(userId, newRole);
+             UserManager.RemoveFromRole(userId, oldRole);
+             UserManager.AddToRole(userId, newRole);
+        }
+        [HttpGet]
+        public ActionResult AllProjects()
+        {
+            var allProject = _context.Projects;
+            List<ProjectsViewModel> projects = new List<ProjectsViewModel>();
+            foreach (var project in allProject)
+            {
+                projects.Add(CreateProjectsViewModel(project));
+            }
+            return View(projects);
+        }
+        private ProjectsViewModel CreateProjectsViewModel(Project project)
+        {
+            string managerUsername = "";
+            if (project.ManagerId != null)
+            {
+                managerUsername = _context.Users.Find(project.ManagerId).UserName;
+            }
+            return new ProjectsViewModel
+            {
+                ManagerId = project.ManagerId,
+                Description = project.Description,
+                Name = project.Name,
+                ProjectId = project.ProjectId,
+                TechnologyId = project.TechnologyId,
+                TechnologyName = _context.Technologies.Find(project.TechnologyId).Name,
+                ManagerUsername = managerUsername,
+                AttendCount = SearchAttended(project.ProjectId)
+            };
+        }
+        [HttpGet]
+        public ActionResult ManagersAttended(int id)
+        {
+            var managersAttendedToProject = _context.AttendedToProjects.Where(x => x.ProjectId == id).Include(x => x.ApplicationUser);
+            return View(managersAttendedToProject);
+        }
+
+        [HttpPost]
+        public ActionResult SubmitManager(int managerId, int projectId)
+        {
+            var projectAndManager = _context.AttendedToProjects.Where(x => x.ProjectId == projectId);
+            var project = _context.Projects.Find(projectId);
+            project.ManagerId = managerId;
+            try
+            {
+                if (projectAndManager != null)
+                {
+                    foreach (var deleteAttend in projectAndManager)
+                    {
+                        _context.AttendedToProjects.Remove(deleteAttend);
+                    }
+                   
+                }
+                _context.Entry(project).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index","Home");
+            }
+            return RedirectToAction("AllProjects");
+        }
+        private int SearchAttended(int projectId)
+        {
+            return _context.AttendedToProjects.Count(x => x.ProjectId == projectId);
         }
     }
 }

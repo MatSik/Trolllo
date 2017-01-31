@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Trolllo.Models;
 
 namespace Trolllo.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext _context = new ApplicationDbContext();
         public ActionResult Index()
         {
             return View();

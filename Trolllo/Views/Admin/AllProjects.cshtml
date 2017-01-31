@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Trolllo.Models.ProjectsViewModel>
+@{
+    ViewBag.Title = "AllProjects";
+}
+
+<h2>AllProjects</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TechnologyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManagerUsername)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttendCount)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechnologyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagerUsername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendCount)
+            </td>
+            <td>           
+                @Html.ActionLink("Edit", "Edit", "Projects", new {id = item.ProjectId},null) |
+                @Html.ActionLink("Details", "Details", "Projects", new {id = item.ProjectId}, null) |
+                @Html.ActionLink("Delete", "Delete", "Projects", new {id = item.ProjectId}, null) |
+                @Html.ActionLink("Change Manager", "ManagersAttended", new {id = item.ProjectId})
+            </td>
+        </tr>
+    }
+
+</table>

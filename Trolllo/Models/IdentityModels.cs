@@ -85,5 +85,7 @@ namespace Trolllo.Models
         public DbSet<AttendedToProject> AttendedToProjects { get; set; }
         public DbSet<ProjectWorker> ProjectWorkers { get; set; }
         public DbSet<AskForCommitToProject> AskForCommitToProjects { get; set; }
+
+      
     }
 }

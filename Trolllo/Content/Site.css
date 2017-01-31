@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    color: white;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -22,3 +23,135 @@ select,
 textarea {
     max-width: 280px;
 }
+.classul {
+
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.classli {
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.element {
+    overflow: hidden;
+    display: block;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+    transition: 0.3s;
+}
+
+.element:hover {
+    box-shadow: 0 12px 24px 12px rgba(0, 0, 0, 1);
+}
+
+.element > .text {
+    padding: 8px;
+    top:200px;
+}
+
+.element > img {
+    width: 100%;
+}
+
+.row-centered {
+    text-align: center;
+}
+
+.col-centered {
+    display: inline-block;
+    float: none;
+    /* reset the text-align */
+    text-align: left;
+    /* inline-block space fix */
+    margin-right: -4px;
+}
+.center {
+    text-align: center;
+}
+.right {
+    text-align: right;
+    display: block;
+}
+.right2 {
+    text-align: right;
+}
+.left {
+    padding-left: 5px;
+    float: left;
+    display: block;
+}
+.buttonown {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 16px;
+    border-radius: 50%;
+   background-color: white;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+.floatleftclass {
+    float: left;
+}
+.clearbothclass {
+    clear: both;
+}
+.backgroundedImageLayout {
+     background-image: url(../image/medium-golden-brown-wood-texture.jpg);
+}
+.backgroundedImageCard {
+    background-image: url(../image/dark-wood.jpg);
+    border-radius: 30px;
+}
+.textColor {
+    color: #fff;
+    font-weight: bold;
+}
+.customHeight {
+    height: 200px;
+
+}
+.custom20Height {
+    height: 20%;
+    padding-top: 10px;
+}
+.bigText {
+    font-size: 30px;
+    font-weight: bold;
+}
+.custom60Height {
+    height: 60%;
+    padding-top: 10px;
+}
+.custom60HeightWP {
+    height: 60%;
+    padding-top: 20px;
+}
+.custom20HeightWP {
+    height: 20%;
+}
+

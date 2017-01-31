@@ -1,51 +1,63 @@
-﻿@model IEnumerable<Trolllo.Models.Project>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
+﻿@using Trolllo.Helpers
+@model IEnumerable<Trolllo.Models.Project>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationUser.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Technology.Name)
-        </th>
-        <th></th>
-    </tr>
+    <div class="container-fluid" ng-controller="projectController">
+        <br/>
+        <div class="jumbotron backgroundedImageCard">
+            <p class="text-center">SZUKAJKA:</p>
+            <input ng-model="searchText" class="form-control input-lg" id="search" value=" ">
+        </div>
+        <div class="row row-centered">
+            <ul class="classul">
+                @foreach (var item in Model)
+                {
+                    <li class="col-centered repeated-item col-lg-3 col-md-4 col-sm-6 col-xs-12 classli" ng-repeat="project in @Model | KeyWordFilter:searchText">
+                        <div class="element backgroundedImageCard">
+                           <button type="submit" class="btn btn-danger floatleftclass" ng-click="$ctrl.editing(project)">
+                                <i class="glyphicon glyphicon-edit" style="color: black"></i>
+                            </button>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Technology.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProjectId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProjectId })
-            @if(User.IsInRole("Manager") || User.IsInRole("Admin"))
-            {
-                @Html.ActionLink("Take Managment", "AttendToManagment", new { id = item.ProjectId });
-            }
-        </td>
+                            <div class="right">
+                                <button type="submit" class="btn btn-danger" ng-click="$ctrl.deleting(project.id)">
+                                    <i class="glyphicon glyphicon-remove" style="color: black"></i>
+                                </button>
+                            </div>
+                            <img src="~/Content/ImagesOfTechnology/2d98ee06c7e9413d063360aacc80bb9a2ea149d2_full.jpg" />
+                           <!-- <img src={{$ctrl.getImage(project.image)}} ng-click="$ctrl.details(project)" height="200">-->
+                            <div class="text">
+                                <h4 class="center" style="font-weight: bold">
+                                    @Html.DisplayFor(modelItem => item.Name)<br/>
+                                </h4>
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>Manadzer:</td>
+                                        <td class="right">@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Technologia:</td>
+                                        <td class="right">@Html.DisplayFor(modelItem => item.Technology.Name)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            @Html.ActionLink("Details", "Details", new { id = item.ProjectId })
+                            @if (User.IsInRole("Manager"))
+                            {
+                                 @Html.ActionLink("Take Managment", "AttendToManagment", new { id = item.ProjectId })
+                            
+                            }
+                        </div>
+                    </li>
 
 
-    </tr>
-            }
+                   
+                            
+                        
+                }
+            </ul>
 
-</table>
+        </div>
+
+    </div>

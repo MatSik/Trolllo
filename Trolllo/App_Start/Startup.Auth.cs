@@ -59,11 +59,12 @@ namespace Trolllo
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "840654773349-0sv0vcsk3ft6vqht2erok3o7ssrav7pg.apps.googleusercontent.com",
+                ClientSecret = "pvUppg4krtGj3KNBnh8miBkg"
+            });
+           
         }
     }
 }

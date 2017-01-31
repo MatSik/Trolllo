@@ -78,10 +78,10 @@
     </dl>
 </div>
 <p>
-    @using (Html.BeginForm("PromoteOrDegrade", "Admin", FormMethod.Post, new { id = Model.Id, promote = promoteValue }))
+    @using (Html.BeginForm("PromoteOrDegrade", "Admin", FormMethod.Post, new { id = Model.Id}))
     {
-
         @Html.AntiForgeryToken()
+        @Html.Hidden("promote", promoteValue)
         string value = "Degrade";
         if (promoteValue)
         {
